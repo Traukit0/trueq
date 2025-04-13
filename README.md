@@ -1,6 +1,158 @@
-# TrueQ - Plataforma de Intercambio
+# TrueQ - Plataforma de Intercambio de Bienes y Servicios
 
-Este README detalla paso a paso cómo poner en marcha el entorno de desarrollo del proyecto **TrueQ**, una red social para intercambios desarrollada con Flask, SQLAlchemy, Alembic, React (Vite) y MySQL, desplegada mediante Docker Compose.
+## Descripción del Proyecto
+
+TrueQ es una plataforma social para intercambios desarrollada como Producto Mínimo Viable (PMV) para el ramo "Taller de desarrollo web y móvil" de la carrera Ingeniería en Computación e Informática en UNAB 2025. 
+
+El objetivo principal del proyecto es demostrar capacidades de operaciones CRUD (Create, Read, Update, Delete) a través de una aplicación de estilo red social que permite a los usuarios publicar, consultar, modificar y eliminar artículos para intercambio.
+
+## Stack Tecnológico
+
+El proyecto ha sido desarrollado utilizando las siguientes tecnologías:
+
+### Backend
+- **Flask**: Framework web ligero y flexible para Python
+- **SQLAlchemy**: ORM (Object-Relational Mapping) para interactuar con la base de datos
+- **Alembic**: Herramienta de migración de bases de datos
+- **Flask-CORS**: Extensión para manejar Cross-Origin Resource Sharing
+
+### Frontend
+- **React**: Biblioteca JavaScript para construir interfaces de usuario
+- **Vite**: Herramienta de compilación para desarrollo frontend
+- **Bootstrap**: Framework CSS para diseño responsive
+- **React Icons**: Paquete de iconos para React
+
+### Base de Datos
+- **MySQL**: Sistema de gestión de base de datos relacional
+- **Adminer**: Herramienta para administración visual de bases de datos
+
+### Despliegue
+- **Docker**: Plataforma de contenedores
+- **Docker Compose**: Herramienta para definir y ejecutar aplicaciones Docker multi-contenedor
+- **Nginx**: Servidor web para servir la aplicación frontend
+
+## Arquitectura del Sistema
+
+El sistema sigue una arquitectura cliente-servidor con separación clara entre el frontend y el backend:
+
+1. **Frontend (Cliente)**:
+   - Aplicación React que proporciona la interfaz de usuario
+   - Consume la API REST proporcionada por el backend
+   - Permite la interacción del usuario con las operaciones CRUD
+
+2. **Backend (Servidor)**:
+   - API RESTful desarrollada con Flask
+   - Maneja las operaciones CRUD en la base de datos
+   - Proporciona endpoints para cada operación
+
+3. **Base de Datos**:
+   - Almacena los datos de los artículos para intercambio
+   - Estructura definida mediante modelos SQLAlchemy
+
+## Funcionalidades CRUD Implementadas
+
+TrueQ implementa todas las operaciones CRUD esenciales para demostrar la capacidad de manipulación de datos:
+
+### Create (Crear)
+- Formulario para agregar nuevos artículos con información detallada:
+  - Título
+  - Descripción
+  - URL de imagen
+  - Categoría
+  - Ubicación
+  - Estado (disponible/no disponible)
+  - Valor aproximado
+
+### Read (Leer)
+- Visualización de todos los artículos disponibles en una interfaz de tarjetas
+- Vista detallada individual de cada artículo
+
+### Update (Actualizar)
+- Capacidad para editar cualquier información de los artículos existentes
+- Formulario de edición con los datos pre-cargados
+
+### Delete (Eliminar)
+- Función para eliminar artículos existentes
+- Confirmación antes de la eliminación para prevenir eliminaciones accidentales
+
+## Estructura del Proyecto
+
+El proyecto está organizado en una estructura clara y modular:
+
+```
+TRUEQ/
+├── backend/              # Servidor Flask
+│   ├── alembic/          # Migraciones de base de datos
+│   ├── app/              # Aplicación principal
+│   │   ├── models/       # Modelos de datos
+│   │   ├── routes/       # Endpoints de la API
+│   │   └── services/     # Lógica de negocio
+│   └── Dockerfile        # Configuración para contenedor Docker
+├── frontend/             # Cliente React
+│   ├── src/
+│   │   ├── components/   # Componentes React
+│   │   ├── App.jsx       # Componente principal
+│   │   └── main.jsx      # Punto de entrada
+│   └── Dockerfile        # Configuración para contenedor Docker
+├── docker-compose.yml    # Configuración de servicios Docker
+└── README.md             # Documentación del proyecto
+```
+
+## Cómo Ejecutar el Proyecto
+
+### Prerrequisitos
+- Docker y Docker Compose instalados
+- Git instalado (para clonar el repositorio)
+
+### Pasos para ejecutar
+1. Clonar el repositorio:
+   ```bash
+   git clone <URL_DEL_REPOSITORIO>
+   cd TrueQ
+   ```
+
+2. Iniciar los servicios con Docker Compose:
+   ```bash
+   docker-compose up --build
+   ```
+
+3. Acceder a las diferentes interfaces:
+   - **Aplicación web**: http://localhost
+   - **API backend**: http://localhost/api
+   - **Adminer (gestión de base de datos)**: http://localhost:8080
+     - Sistema: MySQL
+     - Servidor: db
+     - Usuario: trueq_user
+     - Contraseña: secret123
+     - Base de datos: trueq
+
+## Características Implementadas
+
+### Interfaz de Usuario
+- Diseño moderno y responsive utilizando Bootstrap
+- Navegación intuitiva
+- Formularios de entrada con validación
+- Indicadores visuales del estado de los artículos
+
+### Gestión de Artículos
+- Categorización de artículos (Deportes, Libros, Servicios, etc.)
+- Información detallada de cada artículo
+- Indicación visual de disponibilidad
+- Ubicación del artículo para facilitar intercambios locales
+
+### API Backend
+- Endpoints RESTful para todas las operaciones CRUD
+- Respuestas JSON estructuradas
+- Manejo de errores apropiado
+- Documentación de API disponible
+
+## Conclusión
+
+TrueQ demuestra exitosamente la implementación de operaciones CRUD en un entorno web moderno utilizando tecnologías actuales de la industria. El proyecto sigue estándares profesionales de desarrollo y puede servir como base para una aplicación más compleja de intercambio social.
+
+Este PMV cumple con el objetivo de mostrar la capacidad de crear, leer, actualizar y eliminar registros de una base de datos a través de una interfaz web intuitiva y atractiva, demostrando así las habilidades adquiridas en el ramo "Taller de desarrollo web y móvil".
+
+---
 
 ## 🧱 Requisitos previos
 
