@@ -12,6 +12,15 @@ services:
     depends_on:
       - db
 
+  frontend:
+    build: ./frontend
+    container_name: trueq-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
   db:
     image: mysql:8.0
     container_name: trueq-db

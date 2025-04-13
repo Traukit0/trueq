@@ -3,3 +3,4 @@
 __pycache__/
 trueq/
 .env
+db-schema.dbml
