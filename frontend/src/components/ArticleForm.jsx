@@ -113,7 +113,7 @@ const ArticleForm = ({ onAddArticle }) => {
             className="form-control"
             id="location"
             name="location"
-            placeholder="Ej: Ciudad de México"
+            placeholder="Ej: Castro"
             value={formData.location}
             onChange={handleChange}
           />

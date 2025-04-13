@@ -12,7 +12,7 @@ function App() {
       description: 'Bicicleta de montaña en excelente estado, poco uso. Ideal para principiantes o intermedios.',
       imageUrl: '',
       category: 'Deportes',
-      location: 'Ciudad de México',
+      location: 'Ancud',
       status: 'Disponible',
       value: '$5.0k'
     },
@@ -22,7 +22,7 @@ function App() {
       description: 'Colección completa de los 7 libros de Harry Potter en español. Pasta dura, excelente estado.',
       imageUrl: '',
       category: 'Libros',
-      location: 'Guadalajara',
+      location: 'Quellón',
       status: 'Disponible',
       value: '$2.0k'
     },
@@ -32,7 +32,7 @@ function App() {
       description: 'Ofrezco clases de guitarra para principiantes. 1 hora por semana, virtual o presencial.',
       imageUrl: '',
       category: 'Servicios',
-      location: 'Monterrey',
+      location: 'Castro',
       status: 'No disponible',
       value: '$500'
     }
