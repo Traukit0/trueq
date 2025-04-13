@@ -13,8 +13,7 @@ def create_app():
     db.init_app(app)
     CORS(app)
 
-    # Registrar blueprints aquí
-    from .routes.item_routes import item_bp
-    app.register_blueprint(item_bp, url_prefix='/api/items')
+    from app.routes.item_routes import item_bp
+    app.register_blueprint(item_bp, url_prefix="/api/items")
 
     return app
