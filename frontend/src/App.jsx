@@ -1,84 +1,97 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import ArticleForm from './components/ArticleForm'
 import ArticleList from './components/ArticleList'
+import { getArticles, updateArticle, deleteArticle } from './services/api'
 import './App.css'
 
 function App() {
-  const [articles, setArticles] = useState([
-    {
-      id: 1,
-      title: 'Bicicleta de montaña',
-      description: 'Bicicleta de montaña en excelente estado, poco uso. Ideal para principiantes o intermedios.',
-      imageUrl: '',
-      category: 'Deportes',
-      location: 'Ciudad de México',
-      condition: 'Usado',
-      status: 'Disponible',
-      value: 50000
-    },
-    {
-      id: 2,
-      title: 'Colección de libros de Harry Potter',
-      description: 'Colección completa de los 7 libros de Harry Potter en español. Pasta dura, excelente estado.',
-      imageUrl: '',
-      category: 'Libros',
-      location: 'Guadalajara',
-      condition: 'Como nuevo',
-      status: 'Disponible',
-      value: 20000
-    },
-    {
-      id: 3,
-      title: 'Clases de guitarra',
-      description: 'Ofrezco clases de guitarra para principiantes. 1 hora por semana, virtual o presencial.',
-      imageUrl: '',
-      category: 'Servicios',
-      location: 'Monterrey',
-      condition: 'Nuevo',
-      status: 'No disponible',
-      value: 5000
+  const [articles, setArticles] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  // Cargar artículos al montar el componente
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        setLoading(true)
+        const data = await getArticles()
+        setArticles(data)
+        setError(null)
+      } catch (error) {
+        console.error('Error fetching articles:', error)
+        setError('Error al cargar los artículos. Por favor, recarga la página.')
+      } finally {
+        setLoading(false)
+      }
     }
-  ])
+
+    fetchArticles()
+  }, [])
 
   const handleAddArticle = (newArticle) => {
-    const processedArticle = {
-      ...newArticle,
-      value: newArticle.value ? parseInt(newArticle.value, 10) : '',
-      id: Date.now()
-    }
-    setArticles([...articles, processedArticle])
+    // El artículo ya ha sido creado en la API por el formulario
+    // Solo necesitamos actualizar el estado local
+    setArticles([...articles, newArticle])
   }
 
-  const handleEditArticle = (editedArticle) => {
-    const processedArticle = {
-      ...editedArticle,
-      value: editedArticle.value ? parseInt(editedArticle.value, 10) : ''
-    }
-    setArticles(
-      articles.map((article) =>
-        article.id === processedArticle.id ? processedArticle : article
+  const handleEditArticle = async (editedArticle) => {
+    try {
+      // Actualizar en la API
+      const updated = await updateArticle(editedArticle.id, editedArticle)
+      
+      // Actualizar estado local
+      setArticles(
+        articles.map((article) =>
+          article.id === updated.id ? updated : article
+        )
       )
-    )
+    } catch (error) {
+      console.error('Error updating article:', error)
+      alert('Error al actualizar el artículo. Por favor, inténtalo de nuevo.')
+    }
   }
 
-  const handleDeleteArticle = (id) => {
-    setArticles(articles.filter((article) => article.id !== id))
+  const handleDeleteArticle = async (id) => {
+    try {
+      // Eliminar de la API
+      await deleteArticle(id)
+      
+      // Actualizar estado local
+      setArticles(articles.filter((article) => article.id !== id))
+    } catch (error) {
+      console.error('Error deleting article:', error)
+      alert('Error al eliminar el artículo. Por favor, inténtalo de nuevo.')
+    }
   }
 
   return (
     <div className="container py-4">
       <Header />
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
       <div className="row g-4">
         <div className="col-12 col-lg-4">
           <ArticleForm onAddArticle={handleAddArticle} />
         </div>
         <div className="col-12 col-lg-8">
-          <ArticleList
-            articles={articles}
-            onEdit={handleEditArticle}
-            onDelete={handleDeleteArticle}
-          />
+          {loading ? (
+            <div className="text-center py-5">
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Cargando...</span>
+              </div>
+              <p className="mt-2">Cargando artículos...</p>
+            </div>
+          ) : (
+            <ArticleList
+              articles={articles}
+              onEdit={handleEditArticle}
+              onDelete={handleDeleteArticle}
+            />
+          )}
         </div>
       </div>
     </div>

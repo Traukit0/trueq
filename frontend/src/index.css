@@ -122,3 +122,28 @@ h1, h2, h3, h4, h5, h6 {
 .btn-outline-secondary, .btn-outline-danger {
   font-size: 0.8rem;
 }
+
+/* Deshabilita todas las transiciones y animaciones a nivel global */
+* {
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Elimina efectos hover en botones */
+button:hover,
+.btn:hover,
+a:hover {
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Mantener estilos originales para todos los elementos al hacer hover */
+*:hover {
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+}

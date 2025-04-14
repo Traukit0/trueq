@@ -33,7 +33,7 @@ const ArticleCard = ({ article, onEdit, onDelete }) => {
   };
 
   return (
-    <div className="card mb-4 position-relative">
+    <div className="card mb-4 position-relative" style={{ transform: 'none' }}>
       <div className={`status-badge ${status === 'Disponible' ? 'status-available' : 'status-unavailable'}`}>
         {status}
       </div>

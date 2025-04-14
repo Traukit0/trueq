@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createArticle } from '../services/api';
 
 const ArticleForm = ({ onAddArticle }) => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,8 @@ const ArticleForm = ({ onAddArticle }) => {
     condition: '',
     value: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,19 +23,36 @@ const ArticleForm = ({ onAddArticle }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onAddArticle(formData);
-    setFormData({
-      title: '',
-      description: '',
-      imageUrl: '',
-      category: '',
-      location: '',
-      status: 'Disponible',
-      condition: '',
-      value: ''
-    });
+    setIsSubmitting(true);
+    setError(null);
+    
+    try {
+      // Llamar a la API para crear el artículo
+      const createdArticle = await createArticle(formData);
+      
+      // Llamar al callback del componente padre con el artículo creado
+      onAddArticle(createdArticle);
+      
+      // Limpiar el formulario
+      setFormData({
+        title: '',
+        description: '',
+        imageUrl: '',
+        category: '',
+        location: '',
+        status: 'Disponible',
+        condition: '',
+        value: ''
+      });
+      
+    } catch (error) {
+      console.error('Error al crear el artículo:', error);
+      setError('Error al crear el artículo. Por favor, inténtalo de nuevo.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -171,9 +191,19 @@ const ArticleForm = ({ onAddArticle }) => {
           />
         </div>
 
-        <button type="submit" className="btn btn-success w-100">
-          Agregar artículo
+        <button 
+          type="submit" 
+          className="btn btn-success w-100" 
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? 'Creando artículo...' : 'Agregar artículo'}
         </button>
+        
+        {error && (
+          <div className="alert alert-danger mt-3" role="alert">
+            {error}
+          </div>
+        )}
       </form>
     </div>
   );
