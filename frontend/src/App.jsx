@@ -9,6 +9,7 @@ function App() {
   const [articles, setArticles] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [editingArticle, setEditingArticle] = useState(null)
 
   // Cargar artículos al montar el componente
   useEffect(() => {
@@ -35,10 +36,20 @@ function App() {
     // El artículo ya ha sido creado en la API por el formulario
     // Solo necesitamos actualizar el estado local
     setArticles([...articles, newArticle])
+    // Limpiar el formulario después de agregar
+    setEditingArticle(null)
+  }
+
+  const handleStartEditing = (article) => {
+    console.log('Iniciando edición del artículo:', article)
+    setEditingArticle(article)
+    // Desplazar al inicio de la página para ver el formulario (en móviles)
+    window.scrollTo(0, 0)
   }
 
   const handleEditArticle = async (editedArticle) => {
     try {
+      console.log('Enviando artículo editado a la API:', editedArticle)
       // Actualizar en la API
       const updated = await updateArticle(editedArticle.id, editedArticle)
       
@@ -48,14 +59,26 @@ function App() {
           article.id === updated.id ? updated : article
         )
       )
+      
+      // Limpiar el formulario después de la edición exitosa
+      setEditingArticle(null)
     } catch (error) {
       console.error('Error updating article:', error)
       alert('Error al actualizar el artículo. Por favor, inténtalo de nuevo.')
     }
   }
 
+  const handleCancelEdit = () => {
+    setEditingArticle(null)
+  }
+
   const handleDeleteArticle = async (id) => {
     try {
+      // Si el artículo que se está eliminando es el que se está editando, limpiar el formulario
+      if (editingArticle && editingArticle.id === id) {
+        setEditingArticle(null)
+      }
+      
       // Eliminar de la API
       await deleteArticle(id)
       
@@ -77,7 +100,12 @@ function App() {
       )}
       <div className="row g-4">
         <div className="col-12 col-lg-4">
-          <ArticleForm onAddArticle={handleAddArticle} />
+          <ArticleForm 
+            onAddArticle={handleAddArticle} 
+            onEditArticle={handleEditArticle}
+            onCancelEdit={handleCancelEdit}
+            editingArticle={editingArticle}
+          />
         </div>
         <div className="col-12 col-lg-8">
           {loading ? (
@@ -90,7 +118,7 @@ function App() {
           ) : (
             <ArticleList
               articles={articles}
-              onEdit={handleEditArticle}
+              onEdit={handleStartEditing}
               onDelete={handleDeleteArticle}
             />
           )}

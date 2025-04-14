@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { createArticle } from '../services/api';
+import React, { useState, useEffect } from 'react';
+import { createArticle, updateArticle } from '../services/api';
 
-const ArticleForm = ({ onAddArticle }) => {
+const ArticleForm = ({ onAddArticle, onEditArticle, onCancelEdit, editingArticle }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -14,6 +14,35 @@ const ArticleForm = ({ onAddArticle }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  
+  // Efecto para cargar los datos del artículo a editar
+  useEffect(() => {
+    if (editingArticle) {
+      console.log('Cargando datos para edición:', editingArticle);
+      setFormData({
+        title: editingArticle.title || '',
+        description: editingArticle.description || '',
+        imageUrl: editingArticle.imageUrl || '',
+        category: editingArticle.category || '',
+        location: editingArticle.location || '',
+        status: editingArticle.status || 'Disponible',
+        condition: editingArticle.condition || '',
+        value: editingArticle.value !== null ? String(editingArticle.value) : ''
+      });
+    } else {
+      // Limpiar el formulario si no hay artículo para editar
+      setFormData({
+        title: '',
+        description: '',
+        imageUrl: '',
+        category: '',
+        location: '',
+        status: 'Disponible',
+        condition: '',
+        value: ''
+      });
+    }
+  }, [editingArticle]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,11 +69,27 @@ const ArticleForm = ({ onAddArticle }) => {
     setError(null);
     
     try {
-      // Llamar a la API para crear el artículo
-      const createdArticle = await createArticle(formData);
-      
-      // Llamar al callback del componente padre con el artículo creado
-      onAddArticle(createdArticle);
+      if (editingArticle) {
+        // Estamos editando un artículo existente
+        const editedData = {
+          ...formData,
+          id: editingArticle.id
+        };
+        
+        console.log('Editando artículo con datos:', editedData);
+        
+        // Llamar a la función de edición que recibimos como prop
+        await onEditArticle(editedData);
+      } else {
+        // Estamos creando un nuevo artículo
+        console.log('Creando nuevo artículo con datos:', formData);
+        
+        // Llamar a la API para crear el artículo
+        const createdArticle = await createArticle(formData);
+        
+        // Llamar al callback del componente padre con el artículo creado
+        onAddArticle(createdArticle);
+      }
       
       // Limpiar el formulario
       setFormData({
@@ -59,16 +104,24 @@ const ArticleForm = ({ onAddArticle }) => {
       });
       
     } catch (error) {
-      console.error('Error al crear el artículo:', error);
-      setError('Error al crear el artículo. Por favor, inténtalo de nuevo.');
+      console.error('Error al procesar el artículo:', error);
+      setError(`Error al ${editingArticle ? 'editar' : 'crear'} el artículo. Por favor, inténtalo de nuevo.`);
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const handleCancel = () => {
+    if (onCancelEdit) {
+      onCancelEdit();
+    }
+  };
+
   return (
     <div className="card p-4 mb-4">
-      <h2 className="fs-4 mb-3">Agregar nuevo artículo</h2>
+      <h2 className="fs-4 mb-3">
+        {editingArticle ? 'Editar artículo' : 'Agregar nuevo artículo'}
+      </h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
@@ -212,13 +265,27 @@ const ArticleForm = ({ onAddArticle }) => {
           </small>
         </div>
 
-        <button 
-          type="submit" 
-          className="btn btn-success w-100" 
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? 'Creando artículo...' : 'Agregar artículo'}
-        </button>
+        <div className="d-flex justify-content-between mt-4">
+          {editingArticle && (
+            <button 
+              type="button" 
+              className="btn btn-outline-secondary" 
+              onClick={handleCancel}
+            >
+              Cancelar
+            </button>
+          )}
+          <button 
+            type="submit" 
+            className={`btn btn-success ${!editingArticle ? 'w-100' : 'px-4'}`}
+            disabled={isSubmitting}
+          >
+            {isSubmitting 
+              ? (editingArticle ? 'Guardando...' : 'Creando...') 
+              : (editingArticle ? 'Guardar cambios' : 'Agregar artículo')
+            }
+          </button>
+        </div>
         
         {error && (
           <div className="alert alert-danger mt-3" role="alert">
