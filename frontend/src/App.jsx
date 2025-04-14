@@ -15,12 +15,14 @@ function App() {
     const fetchArticles = async () => {
       try {
         setLoading(true)
+        console.log('Solicitando artículos a la API...')
         const data = await getArticles()
+        console.log('Artículos recibidos:', data)
         setArticles(data)
         setError(null)
       } catch (error) {
-        console.error('Error fetching articles:', error)
-        setError('Error al cargar los artículos. Por favor, recarga la página.')
+        console.error('Error detallado al cargar artículos:', error)
+        setError(`Error al cargar los artículos: ${error.message}`)
       } finally {
         setLoading(false)
       }

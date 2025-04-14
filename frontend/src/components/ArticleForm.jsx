@@ -17,10 +17,21 @@ const ArticleForm = ({ onAddArticle }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    
+    // Manejar específicamente el campo de valor para asegurar que se envía como número
+    if (name === 'value') {
+      const newValue = value === '' ? '' : value;
+      console.log(`Cambiando valor en formulario: ${newValue}, tipo: ${typeof newValue}`);
+      setFormData({
+        ...formData,
+        [name]: newValue
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -153,7 +164,7 @@ const ArticleForm = ({ onAddArticle }) => {
             className="form-control"
             id="location"
             name="location"
-            placeholder="Ej: Ciudad de México"
+            placeholder="Castro"
             value={formData.location}
             onChange={handleChange}
           />
@@ -188,7 +199,17 @@ const ArticleForm = ({ onAddArticle }) => {
             min="0"
             value={formData.value}
             onChange={handleChange}
+            onBlur={() => {
+              // Validar al perder el foco que sea un número
+              if (formData.value !== '' && isNaN(parseInt(formData.value, 10))) {
+                console.error('Valor no válido:', formData.value);
+                setError('El valor debe ser un número válido.');
+              }
+            }}
           />
+          <small className="form-text text-muted">
+            Ingrese el valor en pesos sin puntos ni comas. Ejemplo: 25000 para $25.000.
+          </small>
         </div>
 
         <button 

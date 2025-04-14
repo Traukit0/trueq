@@ -8,10 +8,10 @@ const ArticleList = ({ articles, onEdit, onDelete }) => {
       <div className="row row-cols-1 row-cols-md-2 g-4">
         {articles.map((article) => (
           <div className="col" key={article.id}>
-            <ArticleCard
-              article={article}
-              onEdit={onEdit}
-              onDelete={onDelete}
+            <ArticleCard 
+              article={article} 
+              onEdit={onEdit} 
+              onDelete={onDelete} 
             />
           </div>
         ))}

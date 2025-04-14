@@ -12,7 +12,31 @@ export const getArticles = async () => {
     if (!response.ok) {
       throw new Error('Error al obtener artículos');
     }
-    return await response.json();
+    const data = await response.json();
+    
+    console.log('Datos crudos del backend:', JSON.stringify(data, null, 2));
+    
+    // Transformar datos del backend al formato esperado por el frontend
+    const transformedData = data.map(item => {
+      // Depurar explícitamente el valor para ver qué está llegando
+      console.log(`Item ${item.id} - ${item.title}:`);
+      console.log('  valor:', item.valor, typeof item.valor);
+      
+      return {
+        id: item.id,
+        title: item.title,
+        description: item.description,
+        imageUrl: item.image_url || '',
+        category: item.category || '',
+        location: item.location || '',
+        condition: item.condition || '',
+        status: item.is_available ? 'Disponible' : 'No disponible',
+        value: typeof item.valor === 'number' ? item.valor : null
+      };
+    });
+    
+    console.log('Datos transformados:', transformedData);
+    return transformedData;
   } catch (error) {
     console.error('Error fetching articles:', error);
     throw error;
@@ -55,9 +79,18 @@ export const createArticle = async (articleData) => {
       location: articleData.location
     };
     
-    // Solo agregar el valor si existe
-    if (articleData.value) {
-      mappedData.valor = parseInt(articleData.value, 10);
+    // Manejo específico para el valor
+    if (articleData.value !== undefined && articleData.value !== '' && articleData.value !== null) {
+      // Convertir a número
+      const parsedValue = parseInt(articleData.value, 10);
+      if (!isNaN(parsedValue)) {
+        mappedData.valor = parsedValue;
+        console.log('Valor a enviar:', parsedValue, typeof parsedValue);
+      }
+    } else {
+      // Si no hay valor, enviamos explícitamente null para evitar valores por defecto
+      mappedData.valor = null;
+      console.log('Enviando valor como null explícitamente');
     }
     
     // Agregar URL de imagen si existe
@@ -110,9 +143,18 @@ export const updateArticle = async (id, articleData) => {
       location: articleData.location
     };
     
-    // Solo agregar el valor si existe
-    if (articleData.value) {
-      mappedData.valor = parseInt(articleData.value, 10);
+    // Manejo específico para el valor
+    if (articleData.value !== undefined && articleData.value !== '' && articleData.value !== null) {
+      // Convertir a número
+      const parsedValue = parseInt(articleData.value, 10);
+      if (!isNaN(parsedValue)) {
+        mappedData.valor = parsedValue;
+        console.log('Valor a enviar en update:', parsedValue, typeof parsedValue);
+      }
+    } else {
+      // Si no hay valor, enviamos explícitamente null para evitar valores por defecto
+      mappedData.valor = null;
+      console.log('Enviando valor como null explícitamente en update');
     }
     
     // Agregar URL de imagen si existe
