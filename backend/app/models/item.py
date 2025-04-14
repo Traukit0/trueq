@@ -14,6 +14,7 @@ class Item(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     is_available = db.Column(db.Boolean, default=True)
+    valor = db.Column(db.Integer)
 
     def __repr__(self):
         return f"<Item {self.title}>"
@@ -28,6 +29,7 @@ class Item(db.Model):
             "image_url": self.image_url,
             "created_at": self.created_at.isoformat() if self.created_at else None,
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
-            "is_available": self.is_available
+            "is_available": self.is_available,
+            "valor": self.valor,
         }
 
