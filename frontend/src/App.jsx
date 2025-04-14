@@ -12,9 +12,10 @@ function App() {
       description: 'Bicicleta de montaña en excelente estado, poco uso. Ideal para principiantes o intermedios.',
       imageUrl: '',
       category: 'Deportes',
-      location: 'Ancud',
+      location: 'Ciudad de México',
+      condition: 'Usado',
       status: 'Disponible',
-      value: '$5.0k'
+      value: 50000
     },
     {
       id: 2,
@@ -22,9 +23,10 @@ function App() {
       description: 'Colección completa de los 7 libros de Harry Potter en español. Pasta dura, excelente estado.',
       imageUrl: '',
       category: 'Libros',
-      location: 'Quellón',
+      location: 'Guadalajara',
+      condition: 'Como nuevo',
       status: 'Disponible',
-      value: '$2.0k'
+      value: 20000
     },
     {
       id: 3,
@@ -32,24 +34,30 @@ function App() {
       description: 'Ofrezco clases de guitarra para principiantes. 1 hora por semana, virtual o presencial.',
       imageUrl: '',
       category: 'Servicios',
-      location: 'Castro',
+      location: 'Monterrey',
+      condition: 'Nuevo',
       status: 'No disponible',
-      value: '$500'
+      value: 5000
     }
   ])
 
   const handleAddArticle = (newArticle) => {
-    const articleWithId = {
+    const processedArticle = {
       ...newArticle,
+      value: newArticle.value ? parseInt(newArticle.value, 10) : '',
       id: Date.now()
     }
-    setArticles([...articles, articleWithId])
+    setArticles([...articles, processedArticle])
   }
 
   const handleEditArticle = (editedArticle) => {
+    const processedArticle = {
+      ...editedArticle,
+      value: editedArticle.value ? parseInt(editedArticle.value, 10) : ''
+    }
     setArticles(
       articles.map((article) =>
-        article.id === editedArticle.id ? editedArticle : article
+        article.id === processedArticle.id ? processedArticle : article
       )
     )
   }

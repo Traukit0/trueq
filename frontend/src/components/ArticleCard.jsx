@@ -1,8 +1,36 @@
 import React from 'react';
-import { FaTag, FaMapMarkerAlt, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaTag, FaMapMarkerAlt, FaEdit, FaTrash, FaInfoCircle } from 'react-icons/fa';
 
 const ArticleCard = ({ article, onEdit, onDelete }) => {
-  const { title, description, imageUrl, category, location, status, value } = article;
+  const { title, description, imageUrl, category, location, status, condition, value } = article;
+
+  // Función para formatear el valor como precio en pesos chilenos
+  const formatPrice = (price) => {
+    if (!price) return 'Sin precio';
+    
+    // Convertir a número si es string
+    const numPrice = typeof price === 'string' ? parseInt(price.replace(/[^\d]/g, ''), 10) : price;
+    
+    // Si no es un número válido, mostrar como está
+    if (isNaN(numPrice)) return price;
+    
+    // Formatear como precio en pesos chilenos
+    return '$' + numPrice.toLocaleString('es-CL');
+  };
+
+  // Función para obtener el color de badge para la condición
+  const getConditionColor = (cond) => {
+    switch(cond) {
+      case 'Nuevo':
+        return 'success';
+      case 'Como nuevo':
+        return 'info';
+      case 'Usado':
+        return 'secondary';
+      default:
+        return 'light';
+    }
+  };
 
   return (
     <div className="card mb-4 position-relative">
@@ -36,8 +64,17 @@ const ArticleCard = ({ article, onEdit, onDelete }) => {
       <div className="card-body p-3">
         <h5 className="card-title mb-1">{title}</h5>
         <div className="d-flex align-items-center mb-2">
-          <FaTag className="text-primary me-1" size={12} />
-          <span className="text-muted small">{category}</span>
+          <div className="me-2">
+            <FaTag className="text-primary me-1" size={12} />
+            <span className="text-muted small">{category}</span>
+          </div>
+          {condition && (
+            <div>
+              <span className={`badge bg-${getConditionColor(condition)} small`}>
+                {condition}
+              </span>
+            </div>
+          )}
         </div>
         <p className="card-text text-start small mb-2" style={{ fontSize: '0.85rem' }}>
           {description}
@@ -48,7 +85,7 @@ const ArticleCard = ({ article, onEdit, onDelete }) => {
             <span className="text-muted small">{location}</span>
           </div>
           <div>
-            <span className="fw-bold">{value}</span>
+            <span className="fw-bold">{formatPrice(value)}</span>
           </div>
         </div>
         <div className="d-flex justify-content-between mt-2">

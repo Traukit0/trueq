@@ -8,6 +8,7 @@ const ArticleForm = ({ onAddArticle }) => {
     category: '',
     location: '',
     status: 'Disponible',
+    condition: '',
     value: ''
   });
 
@@ -29,6 +30,7 @@ const ArticleForm = ({ onAddArticle }) => {
       category: '',
       location: '',
       status: 'Disponible',
+      condition: '',
       value: ''
     });
   };
@@ -105,6 +107,24 @@ const ArticleForm = ({ onAddArticle }) => {
         </div>
 
         <div className="mb-3">
+          <label htmlFor="condition" className="form-label">
+            Condición
+          </label>
+          <select
+            className="form-select"
+            id="condition"
+            name="condition"
+            value={formData.condition}
+            onChange={handleChange}
+          >
+            <option value="">Selecciona una condición</option>
+            <option value="Nuevo">Nuevo</option>
+            <option value="Usado">Usado</option>
+            <option value="Como nuevo">Como nuevo</option>
+          </select>
+        </div>
+
+        <div className="mb-3">
           <label htmlFor="location" className="form-label">
             Ubicación
           </label>
@@ -113,7 +133,7 @@ const ArticleForm = ({ onAddArticle }) => {
             className="form-control"
             id="location"
             name="location"
-            placeholder="Ej: Castro"
+            placeholder="Ej: Ciudad de México"
             value={formData.location}
             onChange={handleChange}
           />
@@ -137,22 +157,18 @@ const ArticleForm = ({ onAddArticle }) => {
 
         <div className="mb-3">
           <label htmlFor="value" className="form-label">
-            Valor aproximado
+            Valor (en pesos)
           </label>
-          <select
-            className="form-select"
+          <input
+            type="number"
+            className="form-control"
             id="value"
             name="value"
+            placeholder="Ej: 25000"
+            min="0"
             value={formData.value}
             onChange={handleChange}
-          >
-            <option value="">Selecciona un valor</option>
-            <option value="$500">$500</option>
-            <option value="$1,000">$1,000</option>
-            <option value="$2,000">$2,000</option>
-            <option value="$5,000">$5,000</option>
-            <option value="$10,000">$10,000</option>
-          </select>
+          />
         </div>
 
         <button type="submit" className="btn btn-success w-100">
