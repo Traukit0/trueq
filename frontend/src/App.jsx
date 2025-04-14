@@ -76,19 +76,19 @@ function App() {
     try {
       // Si el artículo que se está eliminando es el que se está editando, limpiar el formulario
       if (editingArticle && editingArticle.id === id) {
-        setEditingArticle(null)
+        setEditingArticle(null);
       }
-      
+
       // Eliminar de la API
-      await deleteArticle(id)
-      
+      await deleteArticle(id);
+
       // Actualizar estado local
-      setArticles(articles.filter((article) => article.id !== id))
+      setArticles(articles.filter((article) => article.id !== id));
     } catch (error) {
-      console.error('Error deleting article:', error)
-      alert('Error al eliminar el artículo. Por favor, inténtalo de nuevo.')
+      console.error('Error deleting article:', error);
+      alert('Error al eliminar el artículo. Por favor, inténtalo de nuevo.');
     }
-  }
+  };
 
   return (
     <div className="container py-4">

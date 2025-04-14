@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaTag, FaMapMarkerAlt, FaEdit, FaTrash } from 'react-icons/fa';
 
 const ArticleCard = ({ article, onEdit, onDelete }) => {
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const handleDeleteClick = () => {
+    setShowConfirm(true);
+  };
+
+  const handleConfirmDelete = () => {
+    onDelete(article.id);
+    setShowConfirm(false);
+  };
+
+  const handleCancelDelete = () => {
+    setShowConfirm(false);
+  };
+
   // Asegurarse de que el artículo contenga todos los campos necesarios con valores predeterminados
   const { 
     title = 'Sin título', 
@@ -157,15 +172,35 @@ const ArticleCard = ({ article, onEdit, onDelete }) => {
             <FaEdit className="me-1" size={12} /> Editar
           </button>
           <button
-            onClick={() => onDelete(article.id)}
+            onClick={handleDeleteClick}
             className="btn btn-sm btn-outline-danger py-1 px-2"
           >
             <FaTrash className="me-1" size={12} /> Eliminar
           </button>
         </div>
+
+        {showConfirm && (
+          <div className="modal" style={{ display: 'block', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Confirmar eliminación</h5>
+                  <button type="button" className="btn-close" onClick={handleCancelDelete}></button>
+                </div>
+                <div className="modal-body">
+                  <p>¿Estás seguro de que deseas eliminar este artículo?</p>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" onClick={handleCancelDelete}>Cancelar</button>
+                  <button type="button" className="btn btn-danger" onClick={handleConfirmDelete}>Eliminar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default ArticleCard; 
+export default ArticleCard;
