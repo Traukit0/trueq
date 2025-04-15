@@ -17,7 +17,7 @@ services:
     container_name: trueq-frontend
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "83:80"
     depends_on:
       - backend
 
@@ -37,7 +37,7 @@ services:
     container_name: trueq-adminer
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "8083:8080"
 
 volumes:
   db_data:
