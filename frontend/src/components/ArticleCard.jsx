@@ -180,19 +180,84 @@ const ArticleCard = ({ article, onEdit, onDelete }) => {
         </div>
 
         {showConfirm && (
-          <div className="modal" style={{ display: 'block', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">Confirmar eliminación</h5>
-                  <button type="button" className="btn-close" onClick={handleCancelDelete}></button>
+          <div className="modal" style={{ 
+            display: 'block', 
+            backgroundColor: 'rgba(0, 0, 0, 0.6)', 
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 1050,
+            overflow: 'hidden',
+            outline: 0
+          }}>
+            <div className="modal-dialog modal-dialog-centered" style={{
+              maxWidth: '400px',
+              margin: '1.75rem auto'
+            }}>
+              <div className="modal-content" style={{
+                borderRadius: '12px',
+                boxShadow: '0 5px 15px rgba(0, 0, 0, 0.2)',
+                border: 'none'
+              }}>
+                <div className="modal-header" style={{
+                  borderBottom: '1px solid #e9ecef',
+                  padding: '1rem',
+                  backgroundColor: '#f8f9fa',
+                  borderTopLeftRadius: '12px',
+                  borderTopRightRadius: '12px'
+                }}>
+                  <h5 className="modal-title" style={{ 
+                    color: 'var(--dark-gray)',
+                    fontWeight: '500',
+                    fontSize: '1.1rem'
+                  }}>Confirmar eliminación</h5>
+                  <button 
+                    type="button" 
+                    className="btn-close" 
+                    onClick={handleCancelDelete}
+                    style={{ outline: 'none' }}
+                  ></button>
                 </div>
-                <div className="modal-body">
-                  <p>¿Estás seguro de que deseas eliminar este artículo?</p>
+                <div className="modal-body text-center py-4">
+                  <div className="mb-3">
+                    <FaTrash size={32} style={{ color: 'var(--danger-color)' }} />
+                  </div>
+                  <p style={{ fontSize: '1rem' }}>¿Estás seguro de que deseas eliminar este artículo?</p>
+                  <p className="text-muted small">Esta acción no se puede deshacer.</p>
                 </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" onClick={handleCancelDelete}>Cancelar</button>
-                  <button type="button" className="btn btn-danger" onClick={handleConfirmDelete}>Eliminar</button>
+                <div className="modal-footer" style={{
+                  borderTop: '1px solid #e9ecef',
+                  padding: '0.75rem',
+                  backgroundColor: '#f8f9fa',
+                  borderBottomLeftRadius: '12px',
+                  borderBottomRightRadius: '12px'
+                }}>
+                  <button 
+                    type="button" 
+                    className="btn btn-outline-secondary" 
+                    onClick={handleCancelDelete}
+                    style={{ 
+                      borderRadius: '6px',
+                      padding: '0.4rem 1rem'
+                    }}
+                  >
+                    Cancelar
+                  </button>
+                  <button 
+                    type="button" 
+                    className="btn btn-danger" 
+                    onClick={handleConfirmDelete}
+                    style={{ 
+                      borderRadius: '6px',
+                      padding: '0.4rem 1rem',
+                      backgroundColor: 'var(--danger-color)',
+                      borderColor: 'var(--danger-color)'
+                    }}
+                  >
+                    Eliminar
+                  </button>
                 </div>
               </div>
             </div>
