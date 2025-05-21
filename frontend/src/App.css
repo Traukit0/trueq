@@ -1,8 +1,8 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
 
 .logo {
@@ -103,4 +103,15 @@
 .status-unavailable {
   background-color: #6c757d;
   color: white;
+}
+
+/* Layout para Sidebar y Contenido Principal */
+.app-container {
+  display: flex;
+}
+
+.main-content {
+  margin-left: 250px; /* Mismo ancho que la sidebar */
+  padding: 20px;
+  width: calc(100% - 250px); /* Ancho restante */
 }

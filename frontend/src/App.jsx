@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Header from './components/Header'
+import Sidebar from './components/Sidebar'
 import ArticleForm from './components/ArticleForm'
 import ArticleList from './components/ArticleList'
 import { getArticles, updateArticle, deleteArticle } from './services/api'
@@ -91,37 +92,42 @@ function App() {
   };
 
   return (
-    <div className="container py-4">
-      <Header />
-      {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
-        </div>
-      )}
-      <div className="row g-4">
-        <div className="col-12 col-lg-4">
-          <ArticleForm 
-            onAddArticle={handleAddArticle} 
-            onEditArticle={handleEditArticle}
-            onCancelEdit={handleCancelEdit}
-            editingArticle={editingArticle}
-          />
-        </div>
-        <div className="col-12 col-lg-8">
-          {loading ? (
-            <div className="text-center py-5">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Cargando...</span>
-              </div>
-              <p className="mt-2">Cargando artículos...</p>
+    <div className="app-container">
+      <Sidebar />
+      <div className="main-content">
+        <div className="container py-4">
+          <Header />
+          {error && (
+            <div className="alert alert-danger" role="alert">
+              {error}
             </div>
-          ) : (
-            <ArticleList
-              articles={articles}
-              onEdit={handleStartEditing}
-              onDelete={handleDeleteArticle}
-            />
           )}
+          <div className="row g-4">
+            <div className="col-12 col-lg-4">
+              <ArticleForm 
+                onAddArticle={handleAddArticle} 
+                onEditArticle={handleEditArticle}
+                onCancelEdit={handleCancelEdit}
+                editingArticle={editingArticle}
+              />
+            </div>
+            <div className="col-12 col-lg-8">
+              {loading ? (
+                <div className="text-center py-5">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Cargando...</span>
+                  </div>
+                  <p className="mt-2">Cargando artículos...</p>
+                </div>
+              ) : (
+                <ArticleList
+                  articles={articles}
+                  onEdit={handleStartEditing}
+                  onDelete={handleDeleteArticle}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
