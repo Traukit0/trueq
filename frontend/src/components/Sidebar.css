@@ -1,17 +1,46 @@
-.sidebar {
-  width: 250px;
-  background-color: #f8f9fa;
-  padding: 15px;
-  height: 100vh; /* Full height */
-  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+.sidebar-container {
+  position: fixed;
   left: 0;
   top: 0;
+  height: 100vh;
+  z-index: 1000;
+}
+
+.hover-area {
+  position: absolute;
+  width: 20px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1001;
+}
+
+.sidebar {
+  width: 0;
+  background-color: #f8f9fa;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  white-space: nowrap;
+}
+
+.sidebar-container:hover .sidebar {
+  width: 250px;
+  padding: 15px;
 }
 
 .sidebar-nav {
   list-style: none;
   padding: 0;
   margin: 0;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  transition-delay: 0.1s;
+}
+
+.sidebar-container:hover .sidebar-nav {
+  opacity: 1;
 }
 
 .sidebar-item {
