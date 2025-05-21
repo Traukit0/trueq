@@ -22,10 +22,41 @@
   overflow: hidden;
   transition: width 0.3s ease-in-out;
   padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar:hover {
   width: 200px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.sidebar-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.sidebar-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-left: 10px;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  transition-delay: 0.1s;
+  white-space: nowrap;
+}
+
+.sidebar:hover .sidebar-title {
+  opacity: 1;
 }
 
 .sidebar-nav {
@@ -70,4 +101,4 @@
 
 .sidebar:hover .sidebar-text {
   opacity: 1;
-} 
+}

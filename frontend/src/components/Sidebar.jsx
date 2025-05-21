@@ -1,12 +1,16 @@
 import React from 'react';
 import './Sidebar.css';
 import { FaPlus, FaList, FaChartBar } from 'react-icons/fa';
+import logo from '../assets/logo.png';
 
 const Sidebar = () => {
   return (
     <div className="sidebar-container">
-      <div className="hover-area"></div>
       <div className="sidebar">
+        <div className="sidebar-header">
+          <img src={logo} alt="TrueQ Logo" className="sidebar-logo" />
+          <span className="sidebar-title">TrueQ</span>
+        </div>
         <ul className="sidebar-nav">
           <li className="sidebar-item">
             <a href="#" className="sidebar-link">
@@ -32,4 +36,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar; 
+export default Sidebar;
