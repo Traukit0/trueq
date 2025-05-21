@@ -111,8 +111,8 @@
 }
 
 .main-content {
-  margin-left: 0; /* Eliminar el margen izquierdo fijo */
+  margin-left: 60px; /* Coincide con el ancho colapsado del menú */
   padding: 20px;
-  width: 100%; /* Usar todo el ancho disponible */
+  width: calc(100% - 60px); /* Ancho restante considerando el menú colapsado */
   transition: margin-left 0.3s ease-in-out; /* Transición suave por si se quiere agregar interacción en el futuro */
 }

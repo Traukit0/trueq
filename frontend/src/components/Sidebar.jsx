@@ -1,5 +1,6 @@
 import React from 'react';
 import './Sidebar.css';
+import { FaPlus, FaList, FaChartBar } from 'react-icons/fa';
 
 const Sidebar = () => {
   return (
@@ -8,13 +9,22 @@ const Sidebar = () => {
       <div className="sidebar">
         <ul className="sidebar-nav">
           <li className="sidebar-item">
-            <a href="#" className="sidebar-link">Nuevo TrueQ</a>
+            <a href="#" className="sidebar-link">
+              <span className="sidebar-icon"><FaPlus /></span>
+              <span className="sidebar-text">Nuevo TrueQ</span>
+            </a>
           </li>
           <li className="sidebar-item">
-            <a href="#" className="sidebar-link">Mis TrueQs</a>
+            <a href="#" className="sidebar-link">
+              <span className="sidebar-icon"><FaList /></span>
+              <span className="sidebar-text">Mis TrueQs</span>
+            </a>
           </li>
           <li className="sidebar-item">
-            <a href="#" className="sidebar-link">Dashboard</a>
+            <a href="#" className="sidebar-link">
+              <span className="sidebar-icon"><FaChartBar /></span>
+              <span className="sidebar-text">Dashboard</span>
+            </a>
           </li>
         </ul>
       </div>
