@@ -2,25 +2,24 @@
 
 ## Descripción del Proyecto
 
-TrueQ es una plataforma social para intercambios desarrollada como Producto Mínimo Viable (PMV) para el ramo "Taller de desarrollo web y móvil" de la carrera Ingeniería en Computación e Informática en UNAB 2025. 
+TrueQ es una plataforma social para intercambios desarrollada como Producto Mínimo Viable (PMV) para el ramo "Taller de desarrollo web y móvil" de la carrera Ingeniería en Computación e Informática en UNAB 2025.
 
 El objetivo principal del proyecto es demostrar capacidades de operaciones CRUD (Create, Read, Update, Delete) a través de una aplicación de estilo red social que permite a los usuarios publicar, consultar, modificar y eliminar artículos para intercambio.
 
-## Stack Tecnológico
+## 📚 Stack Tecnológico
 
-El proyecto ha sido desarrollado utilizando las siguientes tecnologías:
+### Frontend
+- **React**: Biblioteca JavaScript para construir interfaces de usuario
+- **Vite**: Herramienta de compilación para desarrollo frontend
+- **React Router**: Navegación entre páginas de la aplicación
+- **Bootstrap**: Framework CSS para diseño responsive
+- **React Icons**: Paquete de iconos para React
 
 ### Backend
 - **Flask**: Framework web ligero y flexible para Python
 - **SQLAlchemy**: ORM (Object-Relational Mapping) para interactuar con la base de datos
 - **Alembic**: Herramienta de migración de bases de datos
 - **Flask-CORS**: Extensión para manejar Cross-Origin Resource Sharing
-
-### Frontend
-- **React**: Biblioteca JavaScript para construir interfaces de usuario
-- **Vite**: Herramienta de compilación para desarrollo frontend
-- **Bootstrap**: Framework CSS para diseño responsive
-- **React Icons**: Paquete de iconos para React
 
 ### Base de Datos
 - **MySQL**: Sistema de gestión de base de datos relacional
@@ -31,12 +30,13 @@ El proyecto ha sido desarrollado utilizando las siguientes tecnologías:
 - **Docker Compose**: Herramienta para definir y ejecutar aplicaciones Docker multi-contenedor
 - **Nginx**: Servidor web para servir la aplicación frontend
 
-## Arquitectura del Sistema
+## 🏗️ Arquitectura del Sistema
 
 El sistema sigue una arquitectura cliente-servidor con separación clara entre el frontend y el backend:
 
 1. **Frontend (Cliente)**:
    - Aplicación React que proporciona la interfaz de usuario
+   - Utiliza React Router para la navegación entre páginas
    - Consume la API REST proporcionada por el backend
    - Permite la interacción del usuario con las operaciones CRUD
 
@@ -49,9 +49,7 @@ El sistema sigue una arquitectura cliente-servidor con separación clara entre e
    - Almacena los datos de los artículos para intercambio
    - Estructura definida mediante modelos SQLAlchemy
 
-## Funcionalidades CRUD Implementadas
-
-TrueQ implementa todas las operaciones CRUD esenciales para demostrar la capacidad de manipulación de datos:
+## 🔧 Funcionalidades CRUD Implementadas
 
 ### Create (Crear)
 - Formulario para agregar nuevos artículos con información detallada:
@@ -66,6 +64,7 @@ TrueQ implementa todas las operaciones CRUD esenciales para demostrar la capacid
 ### Read (Leer)
 - Visualización de todos los artículos disponibles en una interfaz de tarjetas
 - Vista detallada individual de cada artículo
+- Dashboard con estadísticas y métricas
 
 ### Update (Actualizar)
 - Capacidad para editar cualquier información de los artículos existentes
@@ -75,64 +74,107 @@ TrueQ implementa todas las operaciones CRUD esenciales para demostrar la capacid
 - Función para eliminar artículos existentes
 - Confirmación antes de la eliminación para prevenir eliminaciones accidentales
 
-## Estructura del Proyecto
-
-El proyecto está organizado en una estructura clara y modular:
+## 📁 Estructura del Proyecto
 
 ```
-TRUEQ/
+TrueQ/
 ├── backend/              # Servidor Flask
 │   ├── alembic/          # Migraciones de base de datos
 │   ├── app/              # Aplicación principal
 │   │   ├── models/       # Modelos de datos
 │   │   ├── routes/       # Endpoints de la API
 │   │   └── services/     # Lógica de negocio
-│   └── Dockerfile        # Configuración para contenedor Docker
+│   ├── config.py         # Configuración de la aplicación
+│   ├── Dockerfile        # Configuración para contenedor Docker
+│   └── requirements.txt  # Dependencias Python
 ├── frontend/             # Cliente React
 │   ├── src/
-│   │   ├── components/   # Componentes React
-│   │   ├── App.jsx       # Componente principal
+│   │   ├── assets/       # Imágenes y recursos estáticos
+│   │   ├── components/   # Componentes React reutilizables
+│   │   ├── services/     # Servicios para comunicación con API
+│   │   ├── App.jsx       # Componente principal y enrutamiento
 │   │   └── main.jsx      # Punto de entrada
+│   ├── package.json      # Dependencias y scripts NPM
 │   └── Dockerfile        # Configuración para contenedor Docker
+├── .env                  # Variables de entorno
 ├── docker-compose.yml    # Configuración de servicios Docker
 └── README.md             # Documentación del proyecto
 ```
 
-## Cómo Ejecutar el Proyecto
+## 🚀 Cómo Ejecutar el Proyecto
 
 ### Prerrequisitos
-- Docker y Docker Compose instalados
 - Git instalado (para clonar el repositorio)
+- Node.js y npm instalados (para desarrollo frontend)
+- Python 3.8+ instalado (para desarrollo backend)
+- Docker y Docker Compose instalados (para despliegue)
 
-### Pasos para ejecutar
+### Modo Desarrollo
+
+#### Frontend
+Para trabajar en el desarrollo del frontend:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+El servidor de desarrollo estará disponible en: **http://localhost:5173/**
+
+#### Backend
+Para trabajar en el desarrollo del backend:
+
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # En Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python app.py
+```
+
+La API estará disponible en: **http://localhost:5000/api**
+
+### Modo Producción (Docker)
+
 1. Clonar el repositorio:
    ```bash
    git clone <URL_DEL_REPOSITORIO>
    cd TrueQ
    ```
 
-2. Iniciar los servicios con Docker Compose:
+2. Crear archivo `.env` con las variables de entorno:
+   ```
+   DB_HOST=db
+   DB_PORT=3306
+   DB_NAME=trueq
+   DB_USER=trueq_user
+   DB_PASSWORD=1234
+   ```
+
+3. Iniciar los servicios con Docker Compose:
    ```bash
    docker-compose up --build
    ```
 
-3. Acceder a las diferentes interfaces:
-   - **Aplicación web**: http://localhost
-   - **API backend**: http://localhost/api
-   - **Adminer (gestión de base de datos)**: http://localhost:8080
+4. Acceder a las diferentes interfaces:
+   - **Aplicación web**: http://localhost:83
+   - **API backend**: http://localhost:5000/api
+   - **Adminer (gestión de base de datos)**: http://localhost:8083
      - Sistema: MySQL
      - Servidor: db
      - Usuario: trueq_user
      - Contraseña: secret123
      - Base de datos: trueq
 
-## Características Implementadas
+## 🌟 Características Implementadas
 
 ### Interfaz de Usuario
 - Diseño moderno y responsive utilizando Bootstrap
-- Navegación intuitiva
+- Menú lateral colapsable con navegación intuitiva
 - Formularios de entrada con validación
 - Indicadores visuales del estado de los artículos
+- Dashboard con estadísticas
 
 ### Gestión de Artículos
 - Categorización de artículos (Deportes, Libros, Servicios, etc.)
@@ -144,9 +186,15 @@ TRUEQ/
 - Endpoints RESTful para todas las operaciones CRUD
 - Respuestas JSON estructuradas
 - Manejo de errores apropiado
-- Documentación de API disponible
 
-## Conclusión
+## 📝 Notas Adicionales
+
+- El frontend utiliza React Router para el manejo de rutas y navegación
+- Los componentes están separados para facilitar su reutilización y mantenimiento
+- La API se ha configurado para permitir CORS desde el frontend de desarrollo
+- El despliegue con Docker Compose facilita la puesta en producción en distintos entornos
+
+## 🏁 Conclusión
 
 TrueQ demuestra exitosamente la implementación de operaciones CRUD en un entorno web moderno utilizando tecnologías actuales de la industria. El proyecto sigue estándares profesionales de desarrollo y puede servir como base para una aplicación más compleja de intercambio social.
 
@@ -323,7 +371,6 @@ Ejemplo de `POST` (JSON):
 
 ## 🧩 Próximos pasos
 
-- Implementar frontend con Vite + React
 - Autenticación de usuarios
 - Subida de imágenes con almacenamiento local o externo
 - Filtro de ítems por categoría o localización
