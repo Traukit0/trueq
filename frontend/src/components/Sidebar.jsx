@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Sidebar.css';
 import { FaPlus, FaList, FaChartBar } from 'react-icons/fa';
 import logo from '../assets/logo.png';
@@ -13,22 +14,22 @@ const Sidebar = () => {
         </div>
         <ul className="sidebar-nav">
           <li className="sidebar-item">
-            <a href="#" className="sidebar-link">
+            <Link to="/nuevo" className="sidebar-link">
               <span className="sidebar-icon"><FaPlus /></span>
               <span className="sidebar-text">Nuevo TrueQ</span>
-            </a>
+            </Link>
           </li>
           <li className="sidebar-item">
-            <a href="#" className="sidebar-link">
+            <Link to="/" className="sidebar-link">
               <span className="sidebar-icon"><FaList /></span>
               <span className="sidebar-text">Mis TrueQs</span>
-            </a>
+            </Link>
           </li>
           <li className="sidebar-item">
-            <a href="#" className="sidebar-link">
+            <Link to="/dashboard" className="sidebar-link">
               <span className="sidebar-icon"><FaChartBar /></span>
               <span className="sidebar-text">Dashboard</span>
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
-import ArticleForm from './components/ArticleForm'
-import ArticleList from './components/ArticleList'
+import HomePage from './components/HomePage'
+import NewArticlePage from './components/NewArticlePage'
 import { getArticles, updateArticle, deleteArticle } from './services/api'
 import './App.css'
 
@@ -92,45 +93,40 @@ function App() {
   };
 
   return (
-    <div className="app-container">
-      <Sidebar />
-      <div className="main-content">
-        <div className="container py-4">
+    <Router>
+      <div className="app-container">
+        <Sidebar />
+        <div className="main-content">
           <Header />
-          {error && (
-            <div className="alert alert-danger" role="alert">
-              {error}
-            </div>
-          )}
-          <div className="row g-4">
-            <div className="col-12 col-lg-4">
-              <ArticleForm 
-                onAddArticle={handleAddArticle} 
-                onEditArticle={handleEditArticle}
-                onCancelEdit={handleCancelEdit}
-                editingArticle={editingArticle}
-              />
-            </div>
-            <div className="col-12 col-lg-8">
-              {loading ? (
-                <div className="text-center py-5">
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Cargando...</span>
-                  </div>
-                  <p className="mt-2">Cargando artículos...</p>
-                </div>
-              ) : (
-                <ArticleList
-                  articles={articles}
+          <Routes>
+            <Route 
+              path="/" 
+              element={
+                <HomePage 
+                  articles={articles} 
                   onEdit={handleStartEditing}
                   onDelete={handleDeleteArticle}
+                  loading={loading}
+                  error={error}
                 />
-              )}
-            </div>
-          </div>
+              } 
+            />
+            <Route 
+              path="/nuevo" 
+              element={
+                <NewArticlePage
+                  onAddArticle={handleAddArticle}
+                  onEditArticle={handleEditArticle}
+                  onCancelEdit={handleCancelEdit}
+                  editingArticle={editingArticle}
+                />
+              } 
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </div>
       </div>
-    </div>
+    </Router>
   )
 }
 
