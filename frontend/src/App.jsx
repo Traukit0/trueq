@@ -4,6 +4,7 @@ import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import HomePage from './components/HomePage'
 import NewArticlePage from './components/NewArticlePage'
+import Dashboard from './components/Dashboard'
 import { getArticles, updateArticle, deleteArticle } from './services/api'
 import './App.css'
 
@@ -122,6 +123,7 @@ function App() {
                 />
               } 
             />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
